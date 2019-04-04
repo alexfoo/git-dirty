@@ -1,0 +1,59 @@
+#!/usr/bin/env sh
+
+usage() {
+    echo "usage: git dirty [-v|--version][-l]"
+		echo
+		echo "-l                     list new or changed files"
+		echo "-h                     show this help"
+		echo
+		echo "git config options:"
+		echo
+		echo "core.editor            The editor to use (or \$EDITOR will be used)"
+		echo "plugins.dirty.options  Parameters to pass to the editor"
+}
+
+version() {
+    echo "git dirty plugin v1.0.0"
+}
+
+error() {
+		echo "I don't know what editor you want to use :("
+		echo
+		echo "Please set an editor using (or set EDITOR in your environment):"
+		echo "git config --global core.editor vim"
+}
+
+__dirty_files() {
+		git status -s -uall . | cut -c4-
+}
+
+main() {
+		if [ "$1" = "-v" -o "$1" = "--version" ]; then
+				version; exit 0
+		fi
+		if [ "$1" = "-l" ]; then
+			__dirty_files; exit 0
+		fi
+
+    if [ "$#" -gt 0 ]; then
+        usage; exit 1
+    fi
+
+		O=$(git config plugins.dirty.options)
+
+		# Try $EDITOR first
+ 		if [ -x "`which $EDITOR 2>/dev/null`" ]; then
+				exec "$EDITOR" $O $(__dirty_files)
+		fi
+
+		# Or we can use the config key
+		E=$(git config core.editor)
+		if [ -x "`which $E 2>/dev/null`" ]; then
+				exec "$E" $O $(__dirty_files)
+		fi
+
+		# Nothing to do
+		error; exit 1
+}
+
+main "$@"
