@@ -9,5 +9,5 @@ will instaill in /usr/local/bin
 install to another prefix
 
 # Setup with vim (tabbed):
-```git config --add --global core.editor vim
-git config --add --global plugins.dirty.options -p```
+`git config --add --global core.editor vim
+git config --add --global plugins.dirty.options -p`
