@@ -5,6 +5,8 @@ usage() {
 		echo
 		echo "-l                     list new or changed files"
 		echo "-h                     show this help"
+		echo "-t                     returns 0 if the repo is dirty"
+		echo "-f                     returns 0 if the repo is clean"
 		echo
 		echo "git config options:"
 		echo
@@ -33,6 +35,14 @@ main() {
 		fi
 		if [ "$1" = "-l" ]; then
 			__dirty_files; exit 0
+		fi
+		if [ "$1" = "-t" ]; then
+			test -n "$(__dirty_files)" && exit 0
+			exit 1
+		fi
+		if [ "$1" = "-f" ]; then
+			test -z "$(__dirty_files)" && exit 0
+			exit 1
 		fi
 
     if [ "$#" -gt 0 ]; then
