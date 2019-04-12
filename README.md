@@ -31,16 +31,6 @@ useful for xargs-stuff (this example is stupid, dont actually use this):
 
 `alias build="git dirty -l | xargs -P4 -I% cp % /var/www/%"`
 
-for all sorts of scripting:
+another uesless example:
 
-```
-#!/bin/sh
-
-function abort {
-	echo "Uncommitted changes, aborting..."
-	exit 1
-}
-
-git dirty -t && abort
-exec make -j60
-```
+`git dirty -t && echo There are uncommited changes`
