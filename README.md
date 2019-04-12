@@ -29,4 +29,4 @@ I used to have an alias that essentially did this (that's the inspiration for th
 
 useful for xargs-stuff (this example is stupid, dont actually use this):
 
-alias build="git dirty -l | xargs -P4 -I% cp % /var/www/%"
+`alias build="git dirty -l | xargs -P4 -I% cp % /var/www/%"`
